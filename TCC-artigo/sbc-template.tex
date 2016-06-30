@@ -10,7 +10,7 @@
      
 \sloppy
 
-\title{Protótipo de Jogo Digital para Pessoas com Deficiência Motora Usando OpenCV}
+\title{Protótipo de Jogo Digital para Pessoas com Deficiência Motora Usando OpenCV e Pygame}
 
 \author{Vinicius Bordinhão\inst{1}, Dr. Eduardo Filgueiras Damasceno\inst{1} }
 
@@ -36,38 +36,61 @@
 
 \section{Introdução}
 Jogos digitais tem sido utilizados normalmente como forma de entretenimento e o seu consume tem crescido ano após ano, tornando possível o desenvolvimento de novas formas de interação
-entre usuários e jogos digitais.[]
-Grandes empresas tem desenvolvidos dispositivos para interação dos jogadores com os jogos digitais tais como: Kinect da Microsoft e o Leap Motion[fjdklfds]
+entre usuários e jogos digitais.
+
+Grandes empresas tem desenvolvidos dispositivos para interação dos jogadores com os jogos digitais tais como: Kinect da Microsoft e o Leap Motion\cite{altanis:13}.
 
 Essas ferramentas tem proporcionado uma interação gestual entre usuários e máquinas, substituindo em alguns casos,  completamente periféricos mais tradicionais como teclado, mouse e joysticks. Esses periféricos necessitam que o usuário tenha uma boa coordenação motora para plena utilização, o que reduz ou até mesmo exclui pessoas com deficiência motora.
 
-Com o uso da biblioteca OpenCV é possível construir aplicações que possuam interação gestual com o usuário usando dispositivos simples como câmeras de vídeo com a vantagem de estar disponível para um grande numero sistemas operacionais desktops como, Windows, Linux, Android, MacOS, FreeBSD, OpenBSD e mobile como Android, Maemo e iOS, além de poder ser usada em diversas linguagens de programação tais quais C, Python e Java.[]
+Com o uso da biblioteca OpenCV é possível construir aplicações que possuam interação gestual com o usuário usando dispositivos simples como câmeras de vídeo com a vantagem de estar disponível para um grande numero sistemas operacionais desktops como, Windows, Linux, Android, MacOS, FreeBSD, OpenBSD e mobile como Android, Maemo e iOS, além de poder ser usada em diversas linguagens de programação tais quais C, Python e Java.[fjdksafjdksaçfda]
 
+Nesse trabalho será descrito o processo de desenvolvimento de um protótipo de jogo digital utilizando a captura de movimento de câmera digital como forma de interação para jogador.
 Atualmente grande partes dos dispositivos possui uma câmera digital com capacidade suficiente para capturar movimentos e possibilitar ao usuário uma interação sem contato direto com a tela, ou teclado do dispositivo. Devido a disponibilidade dos dispositivos móveis é possível disponibilizar esse recurso na recuperação motora de pessoas com necessidade de readquirir a mobilidade perdida.
 
+Como a biblioteca OpenCV já possui uma interface pronta para integração com a linguagem Python,
+o uso do Pygame para o desenvolvimento desse protótipo seria o caminho mais rápido para atingir
+os objetivos, pois a biblioteca Pygame proporciona grande facilidade no desenvolvimento de jogos digitais 2D, com rotinas e recursos construindo exclusivamente para esse fim. 
 
-\section{Introdução} \label{sec:firstpage}
+\section{Referêncial Teórico} \label{sec:firstpage}
+Atualmente o mercado de jogos digitais tem evoluído e se tornado mais lucrativo que a indústria do cinema. Isso porque os jogos se tornaram complexos com histórias cada vez mais complexas e contínuas que oferecem uma imersão mais profunda que filmes, pois na história o jogador não é um agente passivo que apenas observa o desfecho da trama ele participa ativamente o que faz a estória não ser apenas contada, mas vivenciada pelo jogador.[Mapeamento da Indústria Brasileira e Global de Jogos
+Digitais, 2014]
 
+A forma de interação com jogos tem mudado com o passar do tempo, atualmente existem vários dispositivos que tem substituído os principais modelos de interação. A interação natural do usuário tem sido proposta através de alguns dispositivos como Microsoft Kinect, que pode detectar movimentos, gestos e transferi-los para um computador. Isso tem aberto novos caminhos para o a reabilitação e terapia de pessoas com deficiência motora \cite{chang:11}
 
+Outro uso inovador de tecnologias de interação natural é no auxílio de crianças com dispraxia\footnote{Dispraxia é uma disfunção motora neurológica que impede o cérebro de desempenhar os movimentos corretamente.} aumentando a percepção visual e o planejamento e a execução dos movimentos usando tecnologias como Wii, Microsoft Kinect e Leap Motion\cite{altanis:13}.
 
-\section{CD-ROMs and Printed Proceedings}
+Jogos digitais também são capazes de prender a atenção de estudantes com déficit cognitivo de maneira mais eficiente que outros conteúdos, sendo assim, a melhor concentração oferecida por eles pode ser estendida para pessoas que não tem problemas cognitivos, mas necessitam estar concentrados para ajudar, facilitar e acelerar a sua recuperação. [A Motion-Sensing Game-Based Therapy to Foster the Learning of Children with Sensory Integration Dysfunction]
 
-In some conferences, the papers are published on CD-ROM while only the
-abstract is published in the printed Proceedings. In this case, authors are
-invited to prepare two final versions of the paper. One, complete, to be
-published on the CD and the other, containing only the first page, with
-abstract and ``resumo'' (for papers in Portuguese).
+Existe a possibilidade de usar todos os benefícios da apresentados anteriormente pelo uso de ferramentas de capturas de movimentos sem a necessidade de hardwares extras, pois a biblioteca OpenCV\footnote{Open Source Computer Vision Library} já fornece um conjunto de ferramentas para aprendizagem de máquina, que inclui vários algoritmos otimizados para detecção e reconhecimento de faces, identificação de objetos, classificação de ações humanas em vídeos, captura de movimentos por câmera, dentre outros\cite{opencv:12}
 
-\section{Sections and Paragraphs}
+O foco principal do OpenCV na aplicação desenvolvida é a captura de movimentos por câmera, com isso o único hardware adicional é a própria câmera. Além disso, as únicas funções da biblioteca discutidas nesse artigo serão referentes à detecção de movimentos e os algoritmos que ela utiliza
+para fazê-lo.
 
-Section titles must be in boldface, 13pt, flush left. There should be an extra
-12 pt of space before each title. Section numbering is optional. The first
-paragraph of each section should not be indented, while the first lines of
-subsequent paragraphs should be indented by 1.27 cm.
+Para o desenvolvimento do jogo digital será usada a biblioteca Pygame que foi construida sobre outra biblioteca de desenvolvimento, a SDL\footnote{Simple DirectMedia Layer}. A SDL foi escrita na linguagem de programação C por Sam Lantinga e é capaz de fornecer um caminho comum entre plataformas para trabalhar com gráficos e dispositivos de entrada. Com a popularização da SDL foram sendos criados interfaces para outras linguagens e uma dessas interfaces originou o Pygame \cite{will:07}.
+
+Tanto o Pygame quando SDL são de código aberto e um grande número de programadores tem trabalho para melhorar e difundir essas ferramentas, tornando assim possível desenvolver jogos digitais de maneira mais prática e fácil\cite{will:07}.
+
+\section{Desenvolvimento}
+
+O jogo conta com duas janelas, sendo que uma delas é a imagem da câmera onde será criado um monitor para captura de movimento que chamaremos de 'tracker'. Já na outra será exibido a interface gráfica do jogo, que não receberá nenhum tipo de entrada do usuário por qualquer dispositivo. O objetivo principal desse modelo é que a interação seja exclusivamente por meio natural, impedindo assim que ações externar prejudiquem a experiência do jogador que pressupõe 
+estar realizando uma terapia com acompanhamento.
+
+O jogo é do tipo plataforma em duas dimensões baseado no jogo Alien desenvolvido usando a biblioteca Pygame. O jogo é de código aberto e as rotinas desenvolvidas nesse projeto estão bem similares ao jogo original, com modificações pontuais para trabalhar com a captura de movimentos.
+
+O tema original foi mantido, sendo assim, ele está ligado a alienígenas, que na versão original eram várias naves espaciais que bombardeiam um tanque de guerra que é o personagem controlado pelo jogador.
+
+O movimentos possíveis tanto para o jogador quanto para a nave espacial são para direita e esquerda, sendo que o tanque fica na parte inferior da janela, enquanto a nave fica na parte superior como é mostrado na figura abaixo.
 
 \subsection{Subsections}
 
-The subsection titles must be in boldface, 12pt, flush left.
+
+
+
+\section{Conclusão}
+
+
+\subsection{Subsections}
+
 
 \section{Figures and Captions}\label{sec:figs}
 
@@ -110,22 +133,7 @@ space before and after each caption.
 
 \section{Images}
 
-All images and illustrations should be in black-and-white, or gray tones,
-excepting for the papers that will be electronically available (on CD-ROMs,
-internet, etc.). The image resolution on paper should be about 600 dpi for
-black-and-white images, and 150-300 dpi for grayscale images.  Do not include
-images with excessive resolution, as they may take hours to print, without any
-visible difference in the result. 
 
-\section{References}
-
-Bibliographic references must be unambiguous and uniform.  We recommend giving
-the author names references in brackets, e.g. \cite{knuth:84},
-\cite{boulic:91}, and \cite{smith:99}.
-
-The references must be listed using 12 point font size, with 6 points of space
-before each reference. The first line of each reference should not be
-indented, while the subsequent should be indented by 0.5 cm.
 
 \bibliographystyle{sbc}
 \bibliography{sbc-template}
