@@ -3,8 +3,9 @@
 \usepackage{sbc-template}
 
 \usepackage{graphicx,url}
+\usepackage{listings}
 
-%\usepackage[brazil]{babel}   
+\usepackage[brazil]{babel}   
 \usepackage[latin1]{inputenc}  
 
      
@@ -79,9 +80,115 @@ O jogo é do tipo plataforma em duas dimensões baseado no jogo Alien desenvolvido
 
 O tema original foi mantido, sendo assim, ele está ligado a alienígenas, que na versão original eram várias naves espaciais que bombardeiam um tanque de guerra que é o personagem controlado pelo jogador.
 
-O movimentos possíveis tanto para o jogador quanto para a nave espacial são para direita e esquerda, sendo que o tanque fica na parte inferior da janela, enquanto a nave fica na parte superior como é mostrado na figura abaixo.
+O movimentos possíveis tanto para o jogador quanto para a nave espacial são para direita e esquerda, sendo que o tanque fica na parte inferior da janela, enquanto a nave fica na parte superior como é mostrado na figura~\ref{fig:figura1}. A cada interação existe uma chance da nave lançar mísseis contra o tanque e caso este consiga esquivar um ponto é adicionado a sua pontuação. Conforme a pontuação do jogador eleva-se a chance de mais mísseis serem lançados pela nave, tornando o jogo mais difícil.
 
-\subsection{Subsections}
+Ao executar a aplicação o jogo encontra-se pausado, até que o usuário crie uma região de captura na janela onde a câmera está sendo exibida. Assim que o objeto é criado o jogo inicia, e o jogador pode movimentar o tanque fazendo um movimento natural que está sendo monitorado na região de captura.  
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.5\textwidth]{figura1.png}
+	\caption{Interface gráfica do jogo digital}
+	\label{fig:figura1}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.5\textwidth]{figura2.png}
+	\caption{Interface gráfica da câmera}
+	\label{fig:figura2}
+\end{figure}
+
+
+\subsection{Implementação}
+
+Para iniciar jogos usando o Pygame é necessário inicializá-la e posteriormente fazer os carregamentos necessários de imagens, sons, e posteriormente injetá-los nos elementos do jogo. Nessa implementação os objetos que controlam as sequencias de imagens - também conhecidos nos jogos 2D como sprites - foram separados em classes para melhor organização do projeto.
+
+Na listagem \ref{carregamento-media} é possível verificar a implementação do carregamento das imagens e sons junto com a incorporação das mídias nos objetos.
+
+Após fazer o carregamento do arquivos foi criado uma interação sem parada definida para a execução da jogo e também da ferramenta de captura de movimentos. Enquanto o tanque - que é o elemento controlado pelo jogador - não colidir com nenhum míssil enviado pela nave. Dentro da interação são verificados as colisões dos objetos através de funções fornecidas pelo Pygame e também verificando a posição da região de captura sofreu alteração como pode ser observado na listagem \ref{interacao-principal}
+
+
+
+
+\lstset{language=Python,frame=single,basicstyle=\footnotesize,caption={Carregamento de mídia},label=carregamento-media}
+\begin{lstlisting}
+    
+#Carregando imagens e colocando na classe respectiva.
+img = load_image('tank.gif')
+Player.images = [img, pygame.transform.flip(img, 1, 0)]
+img = load_image('explosion1.gif')
+Explosion.images = [img, pygame.transform.flip(img, 1, 1)]
+Alien.images = load_images('alien1.gif', 'alien2.gif', 'alien3.gif')
+Bomb.images = [load_image('bomb.gif')]
+Shot.images = [load_image('shot.gif')]
+...
+#Criando background do jogo
+bgdtile = load_image('background.gif')
+background = pygame.Surface(SCREENRECT.size)
+for x in range(0, SCREENRECT.width, bgdtile.get_width()):
+ background.blit(bgdtile, (x, 0))
+ screen.blit(background, (0,0))
+ pygame.display.flip()
+
+#Carregando efeitos de som
+boom_sound = load_sound('boom.wav')
+shoot_sound = load_sound('car_door.wav')
+if pygame.mixer:
+music = os.path.join(main_dir, 'data', 'house_lo.wav')
+pygame.mixer.music.load(music)
+pygame.mixer.music.play(-1)
+...
+
+\end{lstlisting}
+
+\lstset{language=Python,frame=single,basicstyle=\footnotesize,tabsize=2,caption={Carregamento de mídia},label=interacao-principal}
+\begin{lstlisting}
+while player.alive():
+	capture.run(); #inicializando captura opencv
+	if(len(capture.trackers) > 0):
+		old_pos = current_pos;
+		current_pos = capture.trackers[0].pos
+		
+		if(old_pos[0] > current_pos[0]):
+			direction = 1
+		elif(old_pos[0] < current_pos[0]):
+			direction = -1
+		else:
+			direction = 0
+		
+		# Limpa e atualiza os ultimos sprites desenhados
+		all.clear(screen, background)
+		
+		# Atualizando sprites
+		all.update()
+		
+		player.move(direction)
+		
+		# Mísseis
+		if lastalien and not int(random.random() * BOMB_ODDS):
+		Bomb(lastalien.sprite)
+		
+		# Detecção de colisão		
+		for alien in pygame.sprite.groupcollide(shots, aliens, 1, 1).keys():
+			boom_sound.play()
+			Explosion(alien)
+		
+		for bomb in pygame.sprite.spritecollide(player, bombs, 1):
+			boom_sound.play()
+			Explosion(player)
+			Explosion(bomb)
+			player.kill()
+		
+		#Redesenhando a cena
+		dirty = all.draw(screen)
+		pygame.display.update(dirty)
+		
+		# Framerate
+		clock.tick(40)
+
+\end{lstlisting}
+
+
 
 
 
